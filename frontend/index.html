@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="MangaReader" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <title>MangaReader</title>
+</head>
+<body>
+  <section id="auth-view" class="auth-gate">
+    <div class="auth-card">
+      <h1>MangaReader</h1>
+      <p class="subtitle">Sign in to access your library and reader</p>
+      <form id="auth-form">
+        <input type="text" id="auth-username" placeholder="Username" required autocomplete="username" />
+        <input type="password" id="auth-password" placeholder="Password" required autocomplete="current-password" />
+        <label class="checkbox-row">
+          <input type="checkbox" id="auth-remember" checked />
+          <span>Remember me for 1 year</span>
+        </label>
+        <div class="auth-actions">
+          <button type="submit" data-mode="login" class="btn-primary">Log In</button>
+          <button type="button" id="btn-register" class="btn-secondary">Create Account</button>
+        </div>
+        <p id="auth-error" class="error-text"></p>
+      </form>
+    </div>
+  </section>
+
+  <div id="app-shell" class="hidden">
+    <header class="top-bar">
+      <div class="brand">MangaReader</div>
+      <nav class="nav-tabs">
+        <button class="tab-btn active" data-tab="search">Search</button>
+        <button class="tab-btn" data-tab="library">Saved Series</button>
+        <button class="tab-btn" data-tab="offline">Device Downloads</button>
+      </nav>
+      <button id="btn-logout" class="btn-ghost">Logout</button>
+    </header>
+
+    <main id="tab-search" class="view-panel">
+      <form id="search-form" class="search-bar">
+        <input type="search" id="search-input" placeholder="Search MangaDex & WeebCentral..." required />
+        <select id="search-source">
+          <option value="all">All Sources</option>
+          <option value="mangadex">MangaDex</option>
+          <option value="weebcentral">WeebCentral</option>
+        </select>
+        <button type="submit" class="btn-primary">Search</button>
+      </form>
+      <div id="search-results" class="series-grid"></div>
+    </main>
+
+    <main id="tab-library" class="view-panel hidden">
+      <h2>Saved Series</h2>
+      <div id="library-grid" class="series-grid"></div>
+    </main>
+
+    <main id="tab-offline" class="view-panel hidden">
+      <h2>Downloaded on This Device (PWA Offline)</h2>
+      <div id="offline-list" class="chapter-list"></div>
+    </main>
+
+    <section id="series-view" class="view-panel hidden">
+      <button id="btn-back" class="btn-ghost">← Back</button>
+      <div class="series-header">
+        <img id="detail-cover" alt="Cover" />
+        <div>
+          <span id="detail-source" class="badge"></span>
+          <span id="detail-adult-badge" class="badge badge-adult hidden">18+ Adult</span>
+          <h2 id="detail-title"></h2>
+          <button id="btn-save-series" class="btn-primary">Save Series</button>
+        </div>
+      </div>
+      <div id="chapter-list" class="chapter-list"></div>
+    </section>
+  </div>
+
+  <!-- Fullscreen Reader Overlay with Auto-Hiding Controls & RTL Layout -->
+  <section id="reader-overlay" class="reader-overlay hidden">
+    <!-- Floating Auto-Hiding Back Button in Top-Left -->
+    <button id="btn-floating-back" class="floating-back-btn">← Back</button>
+
+    <!-- Floating Reader Settings Toggle in Top-Right -->
+    <button id="btn-floating-settings" class="floating-settings-btn">⚙️</button>
+    <div id="reader-settings-panel" class="reader-settings-panel hidden">
+      <label>
+        Reader Mode:
+        <select id="reader-mode-select">
+          <option value="single">Single Page</option>
+          <option value="double">Double Page Spread</option>
+          <option value="scroll">Vertical Scrolling</option>
+        </select>
+      </label>
+      <label id="offset-option-row" class="checkbox-row">
+        <input type="checkbox" id="reader-offset-toggle" />
+        <span>Double Page Offset (First page solo)</span>
+      </label>
+    </div>
+
+    <div id="reader-stage" class="reader-stage mode-single"></div>
+
+    <!-- Chapter Transition Modal Overlay -->
+    <div id="chapter-transition-modal" class="chapter-transition-modal hidden">
+      <div class="transition-card">
+        <h3>End of Chapter</h3>
+        <p id="transition-msg">Proceeding to next chapter...</p>
+        <div class="auth-actions">
+          <button id="btn-next-chapter-confirm" class="btn-primary">Next Chapter</button>
+          <button id="btn-transition-close" class="btn-secondary">Close Reader</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/reader.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

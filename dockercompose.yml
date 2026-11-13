@@ -1,0 +1,17 @@
+services:
+  manga-reader:
+    build: .
+    container_name: manga-reader
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - JWT_SECRET=replace-with-a-long-random-secret
+      - CACHE_DIR=/cache
+      - DATA_DIR=/data/db
+      - RATE_LIMIT_PER_SEC=19
+    volumes:
+      # Bind-mounted folder on your host where chapters are cached as .cbz files
+      - ./cbz-cache:/cache
+      # Persistent SQLite database for user accounts and saved series
+      - ./reader-data:/data/db
